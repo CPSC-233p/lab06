@@ -88,12 +88,15 @@ def report_historical(data = {}):
     print("============================== HISTORICAL REPORT ===========================")
     print("			             Minimum      Maximum      Minumum   Maximum   Total")
     print("Date                  Temperature  Temperature  Humidity  Humidity  Rainfall")
-    print("====================  ===========  ===========  ========  ========  ========")\
+    print("====================  ===========  ===========  ========  ========  ========")
     
+    noRepeats = []
     temp = ""   
     
     for key, value in data.items():
         date = key[0:9]
+        if date in noRepeats:
+            continue
         year = date[0:4]
         month = int(date[4:6])
         day = date[6:8]
@@ -103,15 +106,17 @@ def report_historical(data = {}):
         minHum = min_temperature(data = data, date = date)
         maxHum = min_temperature(data = data, date = date)
         totRain = tot_rain(data = data, date = date)
-        temp += month_name[month] + " " + day + ", " + year + "               " + str(minTemp) + "      " + str(maxTemp) + "      " + str(minHum) + "      " + str(maxHum) + "      " + str(totRain) + "\n"
-        
-    print(temp)
+        totalString = month_name[month] + " " + day + ", " + year + "               " + str(minTemp) + "      " + str(maxTemp) + "      " + str(minHum) + "      " + str(maxHum) + "      " + str(totRain) + "\n"
+        # print(totalString)
+        temp += totalString
+        noRepeats.append(date)
+
     return temp
 
         
 
 
-weatherDict = {"20210203075501": {"t": 55, "h": 87, "r": 3}, "20210203075502": {"t": 63, "h": 84, "r": 2}, "20210203075503": {"t": 71, "h": 79, "r": 1}}      
+weatherDict = {"20210203075501": {"t": 55, "h": 87, "r": 3}, "20210303075502": {"t": 63, "h": 84, "r": 2}, "20210203075503": {"t": 71, "h": 79, "r": 1}}      
 
 print(report_historical(data = weatherDict))
 

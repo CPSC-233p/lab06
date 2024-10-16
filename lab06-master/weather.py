@@ -9,7 +9,7 @@ def read_data(filename=''):
     except FileNotFoundError:
         return {}
 
-def write_data(data='', filename=''):
+def write_data(data={}, filename=''):
     with open(filename) as f:
         toJson = json.dumps(data)
         writeData = f.write(toJson)
@@ -86,7 +86,7 @@ def report_daily(data={}, date=''):
 
 def report_historical(data = {}):
     print("============================== HISTORICAL REPORT ===========================")
-    print("			             Minimum      Maximum      Minumum   Maximum   Total")
+    print("	              Minimum      Maximum      Minumum   Maximum   Total")
     print("Date                  Temperature  Temperature  Humidity  Humidity  Rainfall")
     print("====================  ===========  ===========  ========  ========  ========")
     
@@ -106,19 +106,10 @@ def report_historical(data = {}):
         minHum = min_temperature(data = data, date = date)
         maxHum = min_temperature(data = data, date = date)
         totRain = tot_rain(data = data, date = date)
-        totalString = month_name[month] + " " + day + ", " + year + "               " + str(minTemp) + "      " + str(maxTemp) + "      " + str(minHum) + "      " + str(maxHum) + "      " + str(totRain) + "\n"
+        totalString = f"{month_name[month]:<10} {day:<2}, {year:<4}   {minTemp:>7} {maxTemp:>12} {minHum:>10} {maxHum:>9} {totRain:>8}\n"
         # print(totalString)
         temp += totalString
         noRepeats.append(date)
 
     return temp
-
-        
-
-
-weatherDict = {"20210203075501": {"t": 55, "h": 87, "r": 3}, "20210303075502": {"t": 63, "h": 84, "r": 2}, "20210203075503": {"t": 71, "h": 79, "r": 1}}      
-
-print(report_historical(data = weatherDict))
-
-
 
